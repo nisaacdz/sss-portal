@@ -1,49 +1,69 @@
 {
-  "dockerComposeFile": "docker-compose.yml",
-  "workspaceFolder": "/workspace",
-  "service": "httpd",
-  "remoteUser": "vscode",
-  "forwardPorts": [
-      1600,
-      1601,
-      1602
-  ],
-  "customizations": {
-      "vscode": {
-          "extensions": [
-              "ms-python.python",
-              "ms-python.vscode-pylance",
-              "ms-python.black-formatter",
-              "GitHub.vscode-pull-request-github",
-              "matthewpi.caddyfile-support",
-              "dbaeumer.vscode-eslint",
-              "esbenp.prettier-vscode",
-              "ckolkman.vscode-postgres"
-          ],
-          "settings": {
-              "editor.formatOnSave": true,
-              "editor.formatOnSaveMode": "file",
-              "[typescript]": {
-                  "editor.defaultFormatter": "esbenp.prettier-vscode"
-              },
-              "[javascript]": {
-                  "editor.defaultFormatter": "esbenp.prettier-vscode"
-              },
-              "[python]": {
-                  "editor.defaultFormatter": "ms-python.black-formatter"
-              },
-              "python.analysis.extraPaths": [
-                  "/backend/"
-              ],
-              "python.testing.pytestEnabled": true,
-              "python.testing.unittestEnabled": false,
-              "python.analysis.diagnosticSeverityOverrides": {
-                  "reportMissingParameterType": "error",
-                  "reportGeneralTypeIssues": "error",
-                  "reportDeprecated": "error",
-                  "reportImportCycles": "error"
-              }
-          }
-      }
-  }
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+
+    "features": {
+        "ghcr.io/devcontainers/features/postgres:1": {
+            "version": "latest",
+            "installClient": true
+        },
+        "ghcr.io/devcontainers-contrib/features/caddy:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/oc-cli:1": {},
+        
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true
+        }
+    },
+
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+    "forwardPorts": [
+        8080,
+        3000,
+        1600,
+        1601,
+        1602
+    ],
+  
+    "postCreateCommand": "pip install -r backend/requirements.txt && cd frontend && npm install",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "GitHub.vscode-pull-request-github",
+                "matthewpi.caddyfile-support",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "ckolkman.vscode-postgres"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.formatOnSaveMode": "file",
+                "[typescript]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "[javascript]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter"
+                },
+                "python.analysis.extraPaths": [
+                    "/workspaces/${localWorkspaceFolderBasename}/backend"
+                ],
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "python.analysis.diagnosticSeverityOverrides": {
+                    "reportMissingParameterType": "error",
+                    "reportGeneralTypeIssues": "error",
+                    "reportDeprecated": "error",
+                    "reportImportCycles": "error"
+                }
+            }
+        }
+    }
 }
